@@ -1,0 +1,47 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Create DataFrame
+data = {
+    'Student': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+    'Study Hours': [8, 7, 6, 2, 3, 4, 1],
+    'Sleep Hours': [45, 50, 55, 70, 60, 80, 85],
+    'Score': ['WE', 'C', '1', None, None, None, None]
+}
+df = pd.DataFrame(data)
+
+# 2. Convert 'Score' to numeric, invalid entries become NaN
+df['Score'] = pd.to_numeric(df['Score'], errors='coerce')
+
+# 3. Print the cleaned DataFrame
+print("Cleaned DataFrame:\n", df)
+
+# 4. Print missing value summary
+print("\nMissing Values Summary:\n", df.isnull().sum())
+
+# 5. Drop rows with NaN scores for visualization
+df_clean = df.dropna(subset=['Score'])
+
+# 6. Visualization
+plt.figure(figsize=(10, 5))
+
+# Study Hours vs Score
+plt.subplot(1, 2, 1)
+sns.scatterplot(data=df_clean, x='Study Hours', y='Score', color='blue', s=100)
+plt.title('Study Hours vs Score')
+plt.xlabel('Study Hours')
+plt.ylabel('Score')
+plt.grid(True)
+
+# Sleep Hours vs Score
+plt.subplot(1, 2, 2)
+sns.scatterplot(data=df_clean, x='Sleep Hours', y='Score', color='green', s=100)
+plt.title('Sleep Hours vs Score')
+plt.xlabel('Sleep Hours')
+plt.ylabel('Score')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
